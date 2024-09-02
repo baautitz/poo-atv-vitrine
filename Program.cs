@@ -1,6 +1,7 @@
 using Atividade_06_Vitrine;
 using Atividade_06_Vitrine.Models;
 using Atividade_06_Vitrine.Repositories;
+using Atividade_06_Vitrine.Repositories.MySQL;
 
 namespace Atividade_06_Vitrine;
 
@@ -8,7 +9,15 @@ public class Program {
     public static void Main(string[] args) {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
+        // Retrieve connection string from configuration
+        string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+        // Register repositories with connection string
+        builder.Services.AddScoped<ICategoriaRepository>(provider => new CategoriaRepository(connectionString!));
+        builder.Services.AddScoped<IProdutoRepository>(provider => new ProdutoRepository(connectionString!));
+
+        // Add services to the container
+        builder.Services.AddControllersWithViews();
         builder.Services.AddRazorPages();
 
         var app = builder.Build();
@@ -16,7 +25,6 @@ public class Program {
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment()) {
             app.UseExceptionHandler("/Error");
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
 

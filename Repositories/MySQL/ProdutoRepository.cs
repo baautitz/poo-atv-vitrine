@@ -10,25 +10,6 @@ public class ProdutoRepository : IProdutoRepository {
         _connectionString = connectionString;
     }
 
-    public Produto? AtualizarProduto(Produto produto) {
-        using var connection = new MySqlConnection(_connectionString);
-        connection.Open();
-
-        var command = connection.CreateCommand();
-        command.CommandText = @"UPDATE produtos 
-                                SET descricao = @descricao, valor_bruto = @valorBruto, desconto = @desconto, image_url = @imageURL 
-                                WHERE codigo = @codigo";
-        command.Parameters.AddWithValue("@descricao", produto.Descricao);
-        command.Parameters.AddWithValue("@valorBruto", produto.ValorBruto);
-        command.Parameters.AddWithValue("@desconto", produto.Desconto);
-        command.Parameters.AddWithValue("@imageURL", produto.ImageURL);
-        command.Parameters.AddWithValue("@codigo", produto.Codigo);
-
-        int rowsAffected = command.ExecuteNonQuery();
-
-        return rowsAffected > 0 ? produto : null;
-    }
-
     public List<Produto>? ObterTodosProdutos() {
         var produtos = new List<Produto>();
 
@@ -55,7 +36,7 @@ public class ProdutoRepository : IProdutoRepository {
         return produtos;
     }
 
-    public Produto? RecuperarProdutoPorCodigo(int codigo) {
+    public Produto? ObterProdutoPorCodigo(int codigo) {
         using var connection = new MySqlConnection(_connectionString);
         connection.Open();
 
@@ -78,14 +59,4 @@ public class ProdutoRepository : IProdutoRepository {
         return null;
     }
 
-    public bool RemoverProduto(int codigo) {
-        using var connection = new MySqlConnection(_connectionString);
-        connection.Open();
-
-        var command = connection.CreateCommand();
-        command.CommandText = @"DELETE FROM produtos WHERE codigo = @codigo";
-        command.Parameters.AddWithValue("@codigo", codigo);
-
-        return command.ExecuteNonQuery() > 0;
-    }
 }
