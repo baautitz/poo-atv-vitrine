@@ -1,10 +1,10 @@
-﻿@page
+﻿@page "{nome_categoria}"
 
 @using Atividade_06_Vitrine.Pages
 
-@model IndexModel
+@model CategoriaModel
 @{
-    ViewData["Title"] = "Todos os Produtos";
+    ViewData["Title"] = Model.Categoria.Nome;
 }
 
 <!DOCTYPE html>
@@ -19,13 +19,13 @@
     <header>
         <h1>@ViewData["Title"]</h1>
         <nav>
-            <a href="/">Todos os produtos</a>
+            <a href="/">Todos</a>
             <!-- Add more links if needed -->
         </nav>
     </header>
     <main>
         <div class="product-grid">
-            @foreach (var produto in Model.Produtos) {
+            @foreach (var produto in Model.Categoria.Produtos) {
                 <div class="product-card">
                     <img src="@produto.ImageURL" alt="@produto.Descricao">
                     <h2>@produto.Descricao</h2>

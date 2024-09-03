@@ -10,7 +10,7 @@ public class ProdutoRepository : IProdutoRepository {
         _connectionString = connectionString;
     }
 
-    public List<Produto>? ObterTodosProdutos() {
+    public List<Produto> ObterTodosProdutos() {
         var produtos = new List<Produto>();
 
         using var connection = new MySqlConnection(_connectionString);

@@ -4,7 +4,7 @@ namespace Atividade_06_Vitrine.Repositories;
 
 public interface IProdutoRepository {
 
-    List<Produto>? ObterTodosProdutos();
+    List<Produto> ObterTodosProdutos();
     Produto? ObterProdutoPorCodigo(int codigo);
 
 }
