@@ -1,41 +1,19 @@
 ﻿@page "{nome_categoria}"
-
+@using Atividade_06_Vitrine.Models
 @using Atividade_06_Vitrine.Pages
-
 @model CategoriaModel
 @{
     ViewData["Title"] = Model.Categoria.Nome;
+    Layout = "_Layout";
 }
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData["Title"]</title>
-    <link rel="stylesheet" href="~/css/styles.css">
-</head>
-<body>
-    <header>
-        <h1>@ViewData["Title"]</h1>
-        <nav>
-            <a href="/">Todos</a>
-            <!-- Add more links if needed -->
-        </nav>
-    </header>
-    <main>
-        <div class="product-grid">
-            @foreach (var produto in Model.Categoria.Produtos) {
-                <div class="product-card">
-                    <img src="@produto.ImageURL" alt="@produto.Descricao">
-                    <h2>@produto.Descricao</h2>
-                    <p>Preço: R$ @produto.CalcularValorLiquido().ToString("0.00")</p>
-                </div>
-            }
+<div class="product-grid">
+    @foreach (Produto produto in Model.Categoria.Produtos)
+    {
+        <div class="product-card">
+            <img src="@produto.ImageURL" alt="@produto.Descricao">
+            <h2>@produto.Descricao</h2>
+            <p>Preço: R$ @produto.CalcularValorLiquido().ToString("0.00")</p>
         </div>
-    </main>
-    <footer>
-        <p>&copy; 2024 Minha Loja</p>
-    </footer>
-</body>
-</html>
+    }
+</div>

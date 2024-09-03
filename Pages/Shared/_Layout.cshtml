@@ -1,0 +1,36 @@
+﻿@using Atividade_06_Vitrine.Models
+@using Atividade_06_Vitrine.Pages.Shared
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>@ViewData["Title"] - URBAN STRIDE</title>
+	<link rel="stylesheet" href="~/css/styles.css">
+</head>
+<body>
+	<header>
+		<h1>URBAN STRIDE</h1>
+		<nav>
+			@{
+				<a href="/" class="@(@ViewData["Title"].Equals("Tudo" ) ? "active" : "")">Tudo</a>
+			}
+			@if (ViewData["Categorias"] is List<Categoria> categorias) {
+				foreach (var categoria in categorias) {
+					bool isActive = @ViewData["Title"].Equals(categoria.Nome);
+					<a href="/Categoria/@categoria.Nome" class="@(isActive ? "active" : "")">@categoria.Nome</a>
+				}
+			}
+		</nav>
+	</header>
+
+	<main>
+		@RenderBody()
+	</main>
+
+	<footer>
+		<p>&copy; 2024 Minha Loja</p>
+	</footer>
+</body>
+</html>

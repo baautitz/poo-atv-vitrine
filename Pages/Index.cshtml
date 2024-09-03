@@ -1,41 +1,25 @@
 ﻿@page
-
 @using Atividade_06_Vitrine.Pages
-
+@using Atividade_06_Vitrine.Models
 @model IndexModel
 @{
-    ViewData["Title"] = "Todos os Produtos";
+    ViewData["Title"] = "Tudo";
+    Layout = "_Layout";
 }
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData["Title"]</title>
-    <link rel="stylesheet" href="~/css/styles.css">
-</head>
-<body>
-    <header>
-        <h1>@ViewData["Title"]</h1>
-        <nav>
-            <a href="/">Todos os produtos</a>
-            <!-- Add more links if needed -->
-        </nav>
-    </header>
-    <main>
-        <div class="product-grid">
-            @foreach (var produto in Model.Produtos) {
-                <div class="product-card">
-                    <img src="@produto.ImageURL" alt="@produto.Descricao">
-                    <h2>@produto.Descricao</h2>
-                    <p>Preço: R$ @produto.CalcularValorLiquido().ToString("0.00")</p>
-                </div>
+<div class="product-grid">
+    @foreach (Produto produto in Model.Produtos)
+    {
+        <div class="product-card">
+            <img src="@produto.ImageURL" alt="@produto.Descricao">
+            <h2>@produto.Descricao</h2>
+            @if (@produto.Desconto > 0) {
+                <p class="from-price">De: R$ @produto.ValorBruto.ToString("0.00")</p>
+                <p class="to-price">Por: R$ @produto.CalcularValorLiquido().ToString("0.00")</p>
+            } else {
+                <p class="to-price">Preço: R$ @produto.CalcularValorLiquido().ToString("0.00")</p>
             }
+            
         </div>
-    </main>
-    <footer>
-        <p>&copy; 2024 Minha Loja</p>
-    </footer>
-</body>
-</html>
+    }
+</div>

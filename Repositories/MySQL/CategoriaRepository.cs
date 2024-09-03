@@ -20,7 +20,7 @@ public class CategoriaRepository : ICategoriaRepository {
         connection.Open();
 
         string query = @"
-            SELECT c.codigo, c.nome, p.codigo, p.descricao, p.valor_bruto, p.desconto, p.image_url
+            SELECT c.codigo, c.nome, p.codigo AS produto_codigo, p.descricao, p.valor_bruto, p.desconto, p.image_url
             FROM categorias c
             LEFT JOIN produto_categoria pc ON c.codigo = pc.categoria_codigo
             LEFT JOIN produtos p ON pc.produto_codigo = p.codigo
@@ -40,13 +40,13 @@ public class CategoriaRepository : ICategoriaRepository {
                 );
             }
 
-            if (!reader.IsDBNull(reader.GetOrdinal("p.codigo"))) {
+            if (!reader.IsDBNull(reader.GetOrdinal("produto_codigo"))) {
                 produtos.Add(new Produto(
-                    reader.GetInt32("p.codigo"),
-                    reader.GetString("p.descricao"),
-                    reader.GetDouble("p.valor_bruto"),
-                    reader.GetString("p.image_url"),
-                    reader.GetDouble("p.desconto")
+                    reader.GetInt32("produto_codigo"),
+                    reader.GetString("descricao"),
+                    reader.GetDouble("valor_bruto"),
+                    reader.GetString("image_url"),
+                    reader.GetDouble("desconto")
                 ));
             }
         }
@@ -64,7 +64,8 @@ public class CategoriaRepository : ICategoriaRepository {
             SELECT c.codigo, c.nome, p.codigo AS produto_codigo, p.descricao, p.valor_bruto, p.desconto, p.image_url
             FROM categorias c
             LEFT JOIN produto_categoria pc ON c.codigo = pc.categoria_codigo
-            LEFT JOIN produtos p ON pc.produto_codigo = p.codigo";
+            LEFT JOIN produtos p ON pc.produto_codigo = p.codigo
+            ORDER BY c.codigo";
 
         using MySqlCommand command = new MySqlCommand(query, connection);
         using MySqlDataReader reader = command.ExecuteReader();
