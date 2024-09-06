@@ -1,5 +1,6 @@
 using Atividade_06_Vitrine.Models;
 using Atividade_06_Vitrine.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Atividade_06_Vitrine.Pages {
@@ -14,13 +15,19 @@ namespace Atividade_06_Vitrine.Pages {
 
         public Categoria Categoria { get; set; }
 
-        public void OnGet(string nome_categoria) {
-            LoadCategorias();
-            Categoria = _categoriaRepository.ObterCategoriaPorNome(nome_categoria);
-            if (Categoria != null) {
-                Categoria.Produtos = Categoria.Produtos ?? _produtoRepository.ObterTodosProdutos()
-                    .Where(p => Categoria.Produtos.Select(prod => prod.Codigo).Contains(p.Codigo)).ToList();
-            }
-        }
-    }
+		public IActionResult OnGet(string nome_categoria) {
+			LoadCategorias();
+			Categoria = _categoriaRepository.ObterCategoriaPorNome(nome_categoria);
+
+			if (Categoria == null) {
+				return RedirectToPage("Error");
+			}
+
+			Categoria.Produtos = Categoria.Produtos ?? _produtoRepository.ObterTodosProdutos()
+				.Where(p => Categoria.Produtos.Select(prod => prod.Codigo).Contains(p.Codigo)).ToList();
+
+			return Page();
+		}
+
+	}
 }

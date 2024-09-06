@@ -38,5 +38,10 @@ public class Produto {
             _desconto = value;
         }
     }
+    
+    public double CalcularPorcentagem()
+    {
+        return Desconto * 100;
+    }
 
 }

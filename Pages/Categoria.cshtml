@@ -13,7 +13,16 @@
         <div class="product-card">
             <img src="@produto.ImageURL" alt="@produto.Descricao">
             <h2>@produto.Descricao</h2>
-            <p>Preço: R$ @produto.CalcularValorLiquido().ToString("0.00")</p>
+            @if (@produto.Desconto > 0)
+            {
+                <p class="price from-price">De: R$ @produto.ValorBruto.ToString("0.00")</p>
+                <p class="price to-price">Por: R$ @produto.CalcularValorLiquido().ToString("0.00")</p>
+                <p class="discount">@produto.CalcularPorcentagem().ToString()% OFF</p>
+            }
+            else
+            {
+                <p class="price to-price">Preço: R$ @produto.CalcularValorLiquido().ToString("0.00")</p>
+            }
         </div>
     }
 </div>
